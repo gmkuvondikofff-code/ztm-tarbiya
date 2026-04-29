@@ -18,7 +18,10 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as NewsIdRouteImport } from './routes/news.$id'
+import { Route as AdminResourcesRouteImport } from './routes/admin.resources'
+import { Route as AdminNewsRouteImport } from './routes/admin.news'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
 
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
@@ -65,9 +68,24 @@ const NewsIdRoute = NewsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => NewsRoute,
 } as any)
+const AdminResourcesRoute = AdminResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNewsRoute = AdminNewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDocumentsRoute = AdminDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -79,7 +97,10 @@ export interface FileRoutesByFullPath {
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
   '/resources': typeof ResourcesRoute
+  '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -90,7 +111,10 @@ export interface FileRoutesByTo {
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
   '/resources': typeof ResourcesRoute
+  '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -103,7 +127,10 @@ export interface FileRoutesById {
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
   '/resources': typeof ResourcesRoute
+  '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -117,7 +144,10 @@ export interface FileRouteTypes {
     | '/news'
     | '/qa'
     | '/resources'
+    | '/admin/documents'
     | '/admin/login'
+    | '/admin/news'
+    | '/admin/resources'
     | '/news/$id'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -128,7 +158,10 @@ export interface FileRouteTypes {
     | '/news'
     | '/qa'
     | '/resources'
+    | '/admin/documents'
     | '/admin/login'
+    | '/admin/news'
+    | '/admin/resources'
     | '/news/$id'
     | '/admin'
   id:
@@ -140,7 +173,10 @@ export interface FileRouteTypes {
     | '/news'
     | '/qa'
     | '/resources'
+    | '/admin/documents'
     | '/admin/login'
+    | '/admin/news'
+    | '/admin/resources'
     | '/news/$id'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -220,6 +256,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsIdRouteImport
       parentRoute: typeof NewsRoute
     }
+    '/admin/resources': {
+      id: '/admin/resources'
+      path: '/resources'
+      fullPath: '/admin/resources'
+      preLoaderRoute: typeof AdminResourcesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/news': {
+      id: '/admin/news'
+      path: '/news'
+      fullPath: '/admin/news'
+      preLoaderRoute: typeof AdminNewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
@@ -227,16 +277,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/documents': {
+      id: '/admin/documents'
+      path: '/documents'
+      fullPath: '/admin/documents'
+      preLoaderRoute: typeof AdminDocumentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminDocumentsRoute: typeof AdminDocumentsRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminNewsRoute: typeof AdminNewsRoute
+  AdminResourcesRoute: typeof AdminResourcesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminDocumentsRoute: AdminDocumentsRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminNewsRoute: AdminNewsRoute,
+  AdminResourcesRoute: AdminResourcesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
