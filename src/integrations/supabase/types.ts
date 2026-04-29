@@ -14,16 +14,207 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      documents: {
+        Row: {
+          created_at: string
+          description_ru: string | null
+          description_uz: string | null
+          external_url: string | null
+          file_type: string | null
+          file_url: string | null
+          id: string
+          title_ru: string | null
+          title_uz: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_ru?: string | null
+          description_uz?: string | null
+          external_url?: string | null
+          file_type?: string | null
+          file_url?: string | null
+          id?: string
+          title_ru?: string | null
+          title_uz: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_ru?: string | null
+          description_uz?: string | null
+          external_url?: string | null
+          file_type?: string | null
+          file_url?: string | null
+          id?: string
+          title_ru?: string | null
+          title_uz?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      news: {
+        Row: {
+          author_id: string | null
+          category: string
+          content_ru: string | null
+          content_uz: string
+          cover_image: string | null
+          created_at: string
+          excerpt_ru: string | null
+          excerpt_uz: string | null
+          id: string
+          images: string[] | null
+          is_important: boolean
+          published_at: string
+          title_ru: string | null
+          title_uz: string
+          updated_at: string
+          views: number
+        }
+        Insert: {
+          author_id?: string | null
+          category?: string
+          content_ru?: string | null
+          content_uz: string
+          cover_image?: string | null
+          created_at?: string
+          excerpt_ru?: string | null
+          excerpt_uz?: string | null
+          id?: string
+          images?: string[] | null
+          is_important?: boolean
+          published_at?: string
+          title_ru?: string | null
+          title_uz: string
+          updated_at?: string
+          views?: number
+        }
+        Update: {
+          author_id?: string | null
+          category?: string
+          content_ru?: string | null
+          content_uz?: string
+          cover_image?: string | null
+          created_at?: string
+          excerpt_ru?: string | null
+          excerpt_uz?: string | null
+          id?: string
+          images?: string[] | null
+          is_important?: boolean
+          published_at?: string
+          title_ru?: string | null
+          title_uz?: string
+          updated_at?: string
+          views?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          totp_code: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          totp_code?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          totp_code?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      resources: {
+        Row: {
+          category: string | null
+          cover_image: string | null
+          created_at: string
+          description_ru: string | null
+          description_uz: string | null
+          external_url: string | null
+          file_url: string | null
+          id: string
+          title_ru: string | null
+          title_uz: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description_ru?: string | null
+          description_uz?: string | null
+          external_url?: string | null
+          file_url?: string | null
+          id?: string
+          title_ru?: string | null
+          title_uz: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description_ru?: string | null
+          description_uz?: string | null
+          external_url?: string | null
+          file_url?: string | null
+          id?: string
+          title_ru?: string | null
+          title_uz?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +341,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
