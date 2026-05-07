@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as ResourcesIdRouteImport } from './routes/resources.$id'
 import { Route as NewsIdRouteImport } from './routes/news.$id'
 import { Route as AdminResourcesRouteImport } from './routes/admin.resources'
 import { Route as AdminNewsRouteImport } from './routes/admin.news'
@@ -63,6 +64,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const ResourcesIdRoute = ResourcesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ResourcesRoute,
+} as any)
 const NewsIdRoute = NewsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -96,12 +102,13 @@ export interface FileRoutesByFullPath {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
+  '/resources/$id': typeof ResourcesIdRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -110,12 +117,13 @@ export interface FileRoutesByTo {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
+  '/resources/$id': typeof ResourcesIdRoute
   '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
@@ -126,12 +134,13 @@ export interface FileRoutesById {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
+  '/resources/$id': typeof ResourcesIdRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/admin/news'
     | '/admin/resources'
     | '/news/$id'
+    | '/resources/$id'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/admin/news'
     | '/admin/resources'
     | '/news/$id'
+    | '/resources/$id'
     | '/admin'
   id:
     | '__root__'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/admin/news'
     | '/admin/resources'
     | '/news/$id'
+    | '/resources/$id'
     | '/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -188,7 +200,7 @@ export interface RootRouteChildren {
   DocumentsRoute: typeof DocumentsRoute
   NewsRoute: typeof NewsRouteWithChildren
   QaRoute: typeof QaRoute
-  ResourcesRoute: typeof ResourcesRoute
+  ResourcesRoute: typeof ResourcesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -248,6 +260,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/resources/$id': {
+      id: '/resources/$id'
+      path: '/$id'
+      fullPath: '/resources/$id'
+      preLoaderRoute: typeof ResourcesIdRouteImport
+      parentRoute: typeof ResourcesRoute
     }
     '/news/$id': {
       id: '/news/$id'
@@ -315,6 +334,18 @@ const NewsRouteChildren: NewsRouteChildren = {
 
 const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
 
+interface ResourcesRouteChildren {
+  ResourcesIdRoute: typeof ResourcesIdRoute
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesIdRoute: ResourcesIdRoute,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
@@ -322,7 +353,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocumentsRoute: DocumentsRoute,
   NewsRoute: NewsRouteWithChildren,
   QaRoute: QaRoute,
-  ResourcesRoute: ResourcesRoute,
+  ResourcesRoute: ResourcesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
