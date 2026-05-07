@@ -45,6 +45,7 @@ function AdminResources() {
   };
 
   const onUpload = async (f: File) => { setUploading(true); const u = await uploadFile("files", f); setUploading(false); if (u) setForm({ ...form, file_url: u }); };
+  const onCover = async (f: File) => { setUploading(true); const u = await uploadFile("media", f); setUploading(false); if (u) setForm({ ...form, cover_image: u }); };
 
   return (
     <div>
@@ -76,6 +77,17 @@ function AdminResources() {
             </div>
             <div><Label>Tavsif (UZ)</Label><Textarea rows={3} value={form.description_uz} onChange={(e) => setForm({ ...form, description_uz: e.target.value })} /></div>
             <div><Label>Tavsif (RU)</Label><Textarea rows={3} value={form.description_ru} onChange={(e) => setForm({ ...form, description_ru: e.target.value })} /></div>
+            <div><Label>Kategoriya</Label><Input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} placeholder="Kitoblar, Maqolalar, Video..." /></div>
+            <div>
+              <Label>Muqova rasm</Label>
+              <div className="flex items-center gap-3 mt-1">
+                <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 border border-border rounded-md hover:bg-muted">
+                  <Upload className="h-4 w-4" /> Tanlash
+                  <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && onCover(e.target.files[0])} />
+                </label>
+                {form.cover_image && <img src={form.cover_image} alt="" className="h-10 w-16 object-cover rounded" />}
+              </div>
+            </div>
             <div>
               <Label>Fayl yuklash</Label>
               <div className="flex items-center gap-3 mt-1">
