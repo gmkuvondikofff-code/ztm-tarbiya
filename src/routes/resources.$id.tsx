@@ -47,7 +47,7 @@ function ResourceReader() {
         const res = await fetch(url);
         if (isDocx) {
           const buf = await res.arrayBuffer();
-          const mammoth = await import("mammoth/mammoth.browser");
+          const mammoth: any = await import(/* @vite-ignore */ "mammoth/mammoth.browser" as any);
           const { value } = await mammoth.extractRawText({ arrayBuffer: buf });
           setBookText(value);
         } else {
