@@ -1,8 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Globe, Shield } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 export function Header() {
   const { t, lang, setLang } = useI18n();
@@ -21,11 +22,12 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2.5 font-display font-bold">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-hero text-primary-foreground shadow-glow">
-            <Shield className="h-5 w-5" />
-          </div>
-          <span className="hidden sm:inline text-lg">Milliy Tarbiya</span>
+        <Link to="/" className="flex items-center gap-2.5 font-display font-bold min-w-0">
+          <img src={logo} alt="Logo" className="h-10 w-10 rounded-lg object-contain bg-white shadow-glow" />
+          <span className="hidden sm:flex flex-col leading-tight">
+            <span className="text-sm font-bold">Zamonaviy ta'lim</span>
+            <span className="text-[11px] text-muted-foreground font-medium">va milliy tarbiya</span>
+          </span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">

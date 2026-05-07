@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, pickLang } from "@/lib/i18n";
+import heroBg from "@/assets/hero-bg.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -26,17 +27,20 @@ function Index() {
   return (
     <Layout>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-hero text-primary-foreground">
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 0%, transparent 40%), radial-gradient(circle at 80% 20%, white 0%, transparent 40%)" }} />
-        <div className="container relative mx-auto px-4 py-20 lg:py-28">
+      <section className="relative overflow-hidden text-white">
+        <div className="absolute inset-0">
+          <img src={heroBg} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/85 via-primary/70 to-primary/40" />
+        </div>
+        <div className="container relative mx-auto px-4 py-16 md:py-24 lg:py-28">
           <div className="max-w-3xl">
             <Badge className="mb-5 bg-white/15 text-white border-white/20 backdrop-blur hover:bg-white/20">
               <Sparkles className="h-3 w-3 mr-1" /> {t("aiHelper")}
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold text-balance mb-5 leading-[1.05]">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-balance mb-5 leading-[1.05]">
               {t("heroTitle")}
             </h1>
-            <p className="text-lg md:text-xl text-white/85 mb-8 max-w-2xl">{t("heroSubtitle")}</p>
+            <p className="text-base md:text-xl text-white/90 mb-8 max-w-2xl">{t("heroSubtitle")}</p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" variant="secondary" className="font-semibold">
                 <Link to="/news">{t("news")} <ArrowRight className="ml-2 h-4 w-4" /></Link>
