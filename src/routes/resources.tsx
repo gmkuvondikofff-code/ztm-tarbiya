@@ -17,8 +17,6 @@ function Resources() {
   const [items, setItems] = useState<any[]>([]);
   const [active, setActive] = useState<string>("all");
 
-  if (pathname !== "/resources") return <Outlet />;
-
   useEffect(() => {
     supabase.from("resources").select("*").order("created_at", { ascending: false })
       .then(({ data }) => setItems(data || []));
@@ -31,6 +29,8 @@ function Resources() {
   }, [items]);
 
   const filtered = active === "all" ? items : items.filter((r) => r.category === active);
+
+  if (pathname !== "/resources") return <Outlet />;
 
   return (
     <Layout>
