@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as QuizzesRouteImport } from './routes/quizzes'
 import { Route as QaRouteImport } from './routes/qa'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as DocumentsRouteImport } from './routes/documents'
@@ -20,6 +21,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ResourcesIdRouteImport } from './routes/resources.$id'
 import { Route as NewsIdRouteImport } from './routes/news.$id'
 import { Route as AdminResourcesRouteImport } from './routes/admin.resources'
+import { Route as AdminQuizzesRouteImport } from './routes/admin.quizzes'
 import { Route as AdminNewsRouteImport } from './routes/admin.news'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
@@ -27,6 +29,11 @@ import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizzesRoute = QuizzesRouteImport.update({
+  id: '/quizzes',
+  path: '/quizzes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QaRoute = QaRouteImport.update({
@@ -79,6 +86,11 @@ const AdminResourcesRoute = AdminResourcesRouteImport.update({
   path: '/resources',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminQuizzesRoute = AdminQuizzesRouteImport.update({
+  id: '/quizzes',
+  path: '/quizzes',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminNewsRoute = AdminNewsRouteImport.update({
   id: '/news',
   path: '/news',
@@ -102,10 +114,12 @@ export interface FileRoutesByFullPath {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
+  '/quizzes': typeof QuizzesRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
+  '/admin/quizzes': typeof AdminQuizzesRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
   '/resources/$id': typeof ResourcesIdRoute
@@ -117,10 +131,12 @@ export interface FileRoutesByTo {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
+  '/quizzes': typeof QuizzesRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
+  '/admin/quizzes': typeof AdminQuizzesRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
   '/resources/$id': typeof ResourcesIdRoute
@@ -134,10 +150,12 @@ export interface FileRoutesById {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
+  '/quizzes': typeof QuizzesRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
+  '/admin/quizzes': typeof AdminQuizzesRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
   '/resources/$id': typeof ResourcesIdRoute
@@ -152,10 +170,12 @@ export interface FileRouteTypes {
     | '/documents'
     | '/news'
     | '/qa'
+    | '/quizzes'
     | '/resources'
     | '/admin/documents'
     | '/admin/login'
     | '/admin/news'
+    | '/admin/quizzes'
     | '/admin/resources'
     | '/news/$id'
     | '/resources/$id'
@@ -167,10 +187,12 @@ export interface FileRouteTypes {
     | '/documents'
     | '/news'
     | '/qa'
+    | '/quizzes'
     | '/resources'
     | '/admin/documents'
     | '/admin/login'
     | '/admin/news'
+    | '/admin/quizzes'
     | '/admin/resources'
     | '/news/$id'
     | '/resources/$id'
@@ -183,10 +205,12 @@ export interface FileRouteTypes {
     | '/documents'
     | '/news'
     | '/qa'
+    | '/quizzes'
     | '/resources'
     | '/admin/documents'
     | '/admin/login'
     | '/admin/news'
+    | '/admin/quizzes'
     | '/admin/resources'
     | '/news/$id'
     | '/resources/$id'
@@ -200,6 +224,7 @@ export interface RootRouteChildren {
   DocumentsRoute: typeof DocumentsRoute
   NewsRoute: typeof NewsRouteWithChildren
   QaRoute: typeof QaRoute
+  QuizzesRoute: typeof QuizzesRoute
   ResourcesRoute: typeof ResourcesRouteWithChildren
 }
 
@@ -210,6 +235,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quizzes': {
+      id: '/quizzes'
+      path: '/quizzes'
+      fullPath: '/quizzes'
+      preLoaderRoute: typeof QuizzesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/qa': {
@@ -282,6 +314,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminResourcesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/quizzes': {
+      id: '/admin/quizzes'
+      path: '/quizzes'
+      fullPath: '/admin/quizzes'
+      preLoaderRoute: typeof AdminQuizzesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/news': {
       id: '/admin/news'
       path: '/news'
@@ -310,6 +349,7 @@ interface AdminRouteChildren {
   AdminDocumentsRoute: typeof AdminDocumentsRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminNewsRoute: typeof AdminNewsRoute
+  AdminQuizzesRoute: typeof AdminQuizzesRoute
   AdminResourcesRoute: typeof AdminResourcesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -318,6 +358,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminDocumentsRoute: AdminDocumentsRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminNewsRoute: AdminNewsRoute,
+  AdminQuizzesRoute: AdminQuizzesRoute,
   AdminResourcesRoute: AdminResourcesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
@@ -353,8 +394,18 @@ const rootRouteChildren: RootRouteChildren = {
   DocumentsRoute: DocumentsRoute,
   NewsRoute: NewsRouteWithChildren,
   QaRoute: QaRoute,
+  QuizzesRoute: QuizzesRoute,
   ResourcesRoute: ResourcesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
