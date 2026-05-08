@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Calendar, Eye, User, ChevronDown } from "lucide-react";
+import { ArrowLeft, Calendar, Eye, User } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,6 @@ function NewsDetail() {
   const { t, lang } = useI18n();
   const [item, setItem] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -62,23 +61,13 @@ function NewsDetail() {
           <img src={item.cover_image} alt={title} className="w-full rounded-2xl mb-6 shadow-elegant" />
         )}
 
-        {!expanded ? (
-          <div className="flex justify-center my-8">
-            <Button size="lg" onClick={() => setExpanded(true)}>
-              {t("readMore")} <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
+        <div className="prose-content text-base md:text-lg whitespace-pre-wrap leading-relaxed">{content}</div>
+        {item.images && item.images.length > 0 && (
+          <div className="grid sm:grid-cols-2 gap-4 mt-10">
+            {item.images.map((src: string, i: number) => (
+              <img key={i} src={src} alt="" className="rounded-xl w-full shadow-elegant" />
+            ))}
           </div>
-        ) : (
-          <>
-            <div className="prose-content text-base md:text-lg whitespace-pre-wrap">{content}</div>
-            {item.images && item.images.length > 0 && (
-              <div className="grid sm:grid-cols-2 gap-4 mt-10">
-                {item.images.map((src: string, i: number) => (
-                  <img key={i} src={src} alt="" className="rounded-xl w-full shadow-elegant" />
-                ))}
-              </div>
-            )}
-          </>
         )}
       </article>
     </Layout>
