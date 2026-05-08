@@ -16,12 +16,12 @@ function NewsList() {
   const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  if (pathname !== "/news") return <Outlet />;
-
   useEffect(() => {
     supabase.from("news").select("*").order("published_at", { ascending: false })
       .then(({ data }) => { setNews(data || []); setLoading(false); });
   }, []);
+
+  if (pathname !== "/news") return <Outlet />;
 
   return (
     <Layout>
