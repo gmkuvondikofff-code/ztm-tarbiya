@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { LogOut, Newspaper, BookOpen, FileText, LayoutDashboard, Shield } from "lucide-react";
+import { LogOut, Newspaper, BookOpen, FileText, LayoutDashboard, Shield, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -39,6 +39,7 @@ function AdminLayout() {
     { to: "/admin/news", label: "Yangiliklar", icon: Newspaper },
     { to: "/admin/resources", label: "Resurslar", icon: BookOpen },
     { to: "/admin/documents", label: "Hujjatlar", icon: FileText },
+    { to: "/admin/quizzes", label: "Testlar", icon: Trophy },
   ];
 
   return (

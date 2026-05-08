@@ -40,6 +40,7 @@ const dict = {
     allCategories: "Barchasi",
     general: "Umumiy",
     video: "Video",
+    quizzes: "Testlar",
   },
   ru: {
     home: "Главная",
@@ -78,6 +79,7 @@ const dict = {
     allCategories: "Все",
     general: "Общее",
     video: "Видео",
+    quizzes: "Тесты",
   },
 };
 

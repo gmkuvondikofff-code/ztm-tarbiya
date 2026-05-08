@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as QuizzesRouteImport } from './routes/quizzes'
 import { Route as QaRouteImport } from './routes/qa'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as DocumentsRouteImport } from './routes/documents'
@@ -18,8 +19,10 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ResourcesIdRouteImport } from './routes/resources.$id'
+import { Route as QuizzesIdRouteImport } from './routes/quizzes.$id'
 import { Route as NewsIdRouteImport } from './routes/news.$id'
 import { Route as AdminResourcesRouteImport } from './routes/admin.resources'
+import { Route as AdminQuizzesRouteImport } from './routes/admin.quizzes'
 import { Route as AdminNewsRouteImport } from './routes/admin.news'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
@@ -27,6 +30,11 @@ import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizzesRoute = QuizzesRouteImport.update({
+  id: '/quizzes',
+  path: '/quizzes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QaRoute = QaRouteImport.update({
@@ -69,6 +77,11 @@ const ResourcesIdRoute = ResourcesIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => ResourcesRoute,
 } as any)
+const QuizzesIdRoute = QuizzesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => QuizzesRoute,
+} as any)
 const NewsIdRoute = NewsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -77,6 +90,11 @@ const NewsIdRoute = NewsIdRouteImport.update({
 const AdminResourcesRoute = AdminResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminQuizzesRoute = AdminQuizzesRouteImport.update({
+  id: '/quizzes',
+  path: '/quizzes',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminNewsRoute = AdminNewsRouteImport.update({
@@ -102,12 +120,15 @@ export interface FileRoutesByFullPath {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
+  '/quizzes': typeof QuizzesRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
+  '/admin/quizzes': typeof AdminQuizzesRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
+  '/quizzes/$id': typeof QuizzesIdRoute
   '/resources/$id': typeof ResourcesIdRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -117,12 +138,15 @@ export interface FileRoutesByTo {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
+  '/quizzes': typeof QuizzesRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
+  '/admin/quizzes': typeof AdminQuizzesRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
+  '/quizzes/$id': typeof QuizzesIdRoute
   '/resources/$id': typeof ResourcesIdRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -134,12 +158,15 @@ export interface FileRoutesById {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
+  '/quizzes': typeof QuizzesRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
+  '/admin/quizzes': typeof AdminQuizzesRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
+  '/quizzes/$id': typeof QuizzesIdRoute
   '/resources/$id': typeof ResourcesIdRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -152,12 +179,15 @@ export interface FileRouteTypes {
     | '/documents'
     | '/news'
     | '/qa'
+    | '/quizzes'
     | '/resources'
     | '/admin/documents'
     | '/admin/login'
     | '/admin/news'
+    | '/admin/quizzes'
     | '/admin/resources'
     | '/news/$id'
+    | '/quizzes/$id'
     | '/resources/$id'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -167,12 +197,15 @@ export interface FileRouteTypes {
     | '/documents'
     | '/news'
     | '/qa'
+    | '/quizzes'
     | '/resources'
     | '/admin/documents'
     | '/admin/login'
     | '/admin/news'
+    | '/admin/quizzes'
     | '/admin/resources'
     | '/news/$id'
+    | '/quizzes/$id'
     | '/resources/$id'
     | '/admin'
   id:
@@ -183,12 +216,15 @@ export interface FileRouteTypes {
     | '/documents'
     | '/news'
     | '/qa'
+    | '/quizzes'
     | '/resources'
     | '/admin/documents'
     | '/admin/login'
     | '/admin/news'
+    | '/admin/quizzes'
     | '/admin/resources'
     | '/news/$id'
+    | '/quizzes/$id'
     | '/resources/$id'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -200,6 +236,7 @@ export interface RootRouteChildren {
   DocumentsRoute: typeof DocumentsRoute
   NewsRoute: typeof NewsRouteWithChildren
   QaRoute: typeof QaRoute
+  QuizzesRoute: typeof QuizzesRouteWithChildren
   ResourcesRoute: typeof ResourcesRouteWithChildren
 }
 
@@ -210,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quizzes': {
+      id: '/quizzes'
+      path: '/quizzes'
+      fullPath: '/quizzes'
+      preLoaderRoute: typeof QuizzesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/qa': {
@@ -268,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesIdRouteImport
       parentRoute: typeof ResourcesRoute
     }
+    '/quizzes/$id': {
+      id: '/quizzes/$id'
+      path: '/$id'
+      fullPath: '/quizzes/$id'
+      preLoaderRoute: typeof QuizzesIdRouteImport
+      parentRoute: typeof QuizzesRoute
+    }
     '/news/$id': {
       id: '/news/$id'
       path: '/$id'
@@ -280,6 +331,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/admin/resources'
       preLoaderRoute: typeof AdminResourcesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/quizzes': {
+      id: '/admin/quizzes'
+      path: '/quizzes'
+      fullPath: '/admin/quizzes'
+      preLoaderRoute: typeof AdminQuizzesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/news': {
@@ -310,6 +368,7 @@ interface AdminRouteChildren {
   AdminDocumentsRoute: typeof AdminDocumentsRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminNewsRoute: typeof AdminNewsRoute
+  AdminQuizzesRoute: typeof AdminQuizzesRoute
   AdminResourcesRoute: typeof AdminResourcesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -318,6 +377,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminDocumentsRoute: AdminDocumentsRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminNewsRoute: AdminNewsRoute,
+  AdminQuizzesRoute: AdminQuizzesRoute,
   AdminResourcesRoute: AdminResourcesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
@@ -333,6 +393,17 @@ const NewsRouteChildren: NewsRouteChildren = {
 }
 
 const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
+
+interface QuizzesRouteChildren {
+  QuizzesIdRoute: typeof QuizzesIdRoute
+}
+
+const QuizzesRouteChildren: QuizzesRouteChildren = {
+  QuizzesIdRoute: QuizzesIdRoute,
+}
+
+const QuizzesRouteWithChildren =
+  QuizzesRoute._addFileChildren(QuizzesRouteChildren)
 
 interface ResourcesRouteChildren {
   ResourcesIdRoute: typeof ResourcesIdRoute
@@ -353,6 +424,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocumentsRoute: DocumentsRoute,
   NewsRoute: NewsRouteWithChildren,
   QaRoute: QaRoute,
+  QuizzesRoute: QuizzesRouteWithChildren,
   ResourcesRoute: ResourcesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
