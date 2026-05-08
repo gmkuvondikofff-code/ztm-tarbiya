@@ -19,6 +19,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ResourcesIdRouteImport } from './routes/resources.$id'
+import { Route as QuizzesIdRouteImport } from './routes/quizzes.$id'
 import { Route as NewsIdRouteImport } from './routes/news.$id'
 import { Route as AdminResourcesRouteImport } from './routes/admin.resources'
 import { Route as AdminQuizzesRouteImport } from './routes/admin.quizzes'
@@ -76,6 +77,11 @@ const ResourcesIdRoute = ResourcesIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => ResourcesRoute,
 } as any)
+const QuizzesIdRoute = QuizzesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => QuizzesRoute,
+} as any)
 const NewsIdRoute = NewsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -114,7 +120,7 @@ export interface FileRoutesByFullPath {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
-  '/quizzes': typeof QuizzesRoute
+  '/quizzes': typeof QuizzesRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/admin/quizzes': typeof AdminQuizzesRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
+  '/quizzes/$id': typeof QuizzesIdRoute
   '/resources/$id': typeof ResourcesIdRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -131,7 +138,7 @@ export interface FileRoutesByTo {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
-  '/quizzes': typeof QuizzesRoute
+  '/quizzes': typeof QuizzesRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/admin/quizzes': typeof AdminQuizzesRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
+  '/quizzes/$id': typeof QuizzesIdRoute
   '/resources/$id': typeof ResourcesIdRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -150,7 +158,7 @@ export interface FileRoutesById {
   '/documents': typeof DocumentsRoute
   '/news': typeof NewsRouteWithChildren
   '/qa': typeof QaRoute
-  '/quizzes': typeof QuizzesRoute
+  '/quizzes': typeof QuizzesRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/admin/quizzes': typeof AdminQuizzesRoute
   '/admin/resources': typeof AdminResourcesRoute
   '/news/$id': typeof NewsIdRoute
+  '/quizzes/$id': typeof QuizzesIdRoute
   '/resources/$id': typeof ResourcesIdRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/admin/quizzes'
     | '/admin/resources'
     | '/news/$id'
+    | '/quizzes/$id'
     | '/resources/$id'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -195,6 +205,7 @@ export interface FileRouteTypes {
     | '/admin/quizzes'
     | '/admin/resources'
     | '/news/$id'
+    | '/quizzes/$id'
     | '/resources/$id'
     | '/admin'
   id:
@@ -213,6 +224,7 @@ export interface FileRouteTypes {
     | '/admin/quizzes'
     | '/admin/resources'
     | '/news/$id'
+    | '/quizzes/$id'
     | '/resources/$id'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -224,7 +236,7 @@ export interface RootRouteChildren {
   DocumentsRoute: typeof DocumentsRoute
   NewsRoute: typeof NewsRouteWithChildren
   QaRoute: typeof QaRoute
-  QuizzesRoute: typeof QuizzesRoute
+  QuizzesRoute: typeof QuizzesRouteWithChildren
   ResourcesRoute: typeof ResourcesRouteWithChildren
 }
 
@@ -299,6 +311,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resources/$id'
       preLoaderRoute: typeof ResourcesIdRouteImport
       parentRoute: typeof ResourcesRoute
+    }
+    '/quizzes/$id': {
+      id: '/quizzes/$id'
+      path: '/$id'
+      fullPath: '/quizzes/$id'
+      preLoaderRoute: typeof QuizzesIdRouteImport
+      parentRoute: typeof QuizzesRoute
     }
     '/news/$id': {
       id: '/news/$id'
@@ -375,6 +394,17 @@ const NewsRouteChildren: NewsRouteChildren = {
 
 const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
 
+interface QuizzesRouteChildren {
+  QuizzesIdRoute: typeof QuizzesIdRoute
+}
+
+const QuizzesRouteChildren: QuizzesRouteChildren = {
+  QuizzesIdRoute: QuizzesIdRoute,
+}
+
+const QuizzesRouteWithChildren =
+  QuizzesRoute._addFileChildren(QuizzesRouteChildren)
+
 interface ResourcesRouteChildren {
   ResourcesIdRoute: typeof ResourcesIdRoute
 }
@@ -394,7 +424,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocumentsRoute: DocumentsRoute,
   NewsRoute: NewsRouteWithChildren,
   QaRoute: QaRoute,
-  QuizzesRoute: QuizzesRoute,
+  QuizzesRoute: QuizzesRouteWithChildren,
   ResourcesRoute: ResourcesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
