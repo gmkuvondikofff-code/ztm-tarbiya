@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Layout } from "@/components/Layout";
 import { NewsCard } from "./index";
@@ -12,8 +12,11 @@ export const Route = createFileRoute("/news")({
 
 function NewsList() {
   const { t } = useI18n();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  if (pathname !== "/news") return <Outlet />;
 
   useEffect(() => {
     supabase.from("news").select("*").order("published_at", { ascending: false })
