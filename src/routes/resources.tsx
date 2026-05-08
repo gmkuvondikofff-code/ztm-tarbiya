@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { ExternalLink, Download, BookOpen, Library, BookMarked } from "lucide-react";
 import { Layout } from "@/components/Layout";
@@ -13,6 +13,7 @@ export const Route = createFileRoute("/resources")({
 
 function Resources() {
   const { t, lang } = useI18n();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [items, setItems] = useState<any[]>([]);
   const [active, setActive] = useState<string>("all");
 
@@ -28,6 +29,8 @@ function Resources() {
   }, [items]);
 
   const filtered = active === "all" ? items : items.filter((r) => r.category === active);
+
+  if (pathname !== "/resources") return <Outlet />;
 
   return (
     <Layout>
