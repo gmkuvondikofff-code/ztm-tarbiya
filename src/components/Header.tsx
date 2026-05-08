@@ -15,6 +15,7 @@ export function Header() {
     { to: "/news", label: t("news") },
     { to: "/resources", label: t("resources") },
     { to: "/documents", label: t("documents") },
+    { to: "/quizzes", label: t("quizzes") },
     { to: "/qa", label: t("qa") },
     { to: "/contact", label: t("contact") },
   ];
