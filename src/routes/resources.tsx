@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ExternalLink, Download, BookOpen, Library, BookMarked } from "lucide-react";
+import { ExternalLink, Download, BookOpen, Library, BookMarked, PlayCircle, Music, Film } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,6 +15,7 @@ function Resources() {
   const { t, lang } = useI18n();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [items, setItems] = useState<any[]>([]);
+  const [section, setSection] = useState<"library" | "econtent">("library");
   const [active, setActive] = useState<string>("all");
 
   useEffect(() => {
@@ -22,13 +23,17 @@ function Resources() {
       .then(({ data }) => setItems(data || []));
   }, []);
 
+  const sectionItems = useMemo(() => items.filter((r) => (r.section || "library") === section), [items, section]);
+
   const categories = useMemo(() => {
     const set = new Set<string>();
-    items.forEach((r) => r.category && set.add(r.category));
+    sectionItems.forEach((r) => r.category && set.add(r.category));
     return ["all", ...Array.from(set)];
-  }, [items]);
+  }, [sectionItems]);
 
-  const filtered = active === "all" ? items : items.filter((r) => r.category === active);
+  const filtered = active === "all" ? sectionItems : sectionItems.filter((r) => r.category === active);
+
+  useEffect(() => { setActive("all"); }, [section]);
 
   if (pathname !== "/resources") return <Outlet />;
 
