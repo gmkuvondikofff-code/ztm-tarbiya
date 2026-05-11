@@ -77,7 +77,16 @@ function AdminResources() {
             </div>
             <div><Label>Tavsif (UZ)</Label><Textarea rows={3} value={form.description_uz} onChange={(e) => setForm({ ...form, description_uz: e.target.value })} /></div>
             <div><Label>Tavsif (RU)</Label><Textarea rows={3} value={form.description_ru} onChange={(e) => setForm({ ...form, description_ru: e.target.value })} /></div>
-            <div><Label>Kategoriya</Label><Input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} placeholder="Kitoblar, Maqolalar, Video..." /></div>
+            <div className="grid md:grid-cols-2 gap-3">
+              <div>
+                <Label>Bo'lim</Label>
+                <select className="w-full h-10 px-3 rounded-md border border-input bg-background" value={form.section} onChange={(e) => setForm({ ...form, section: e.target.value })}>
+                  <option value="library">Kutubxona (kitob/hujjat)</option>
+                  <option value="econtent">E-kontent (audio/video)</option>
+                </select>
+              </div>
+              <div><Label>Kategoriya</Label><Input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} placeholder="Kitoblar, Audio, Video..." /></div>
+            </div>
             <div>
               <Label>Muqova rasm</Label>
               <div className="flex items-center gap-3 mt-1">
