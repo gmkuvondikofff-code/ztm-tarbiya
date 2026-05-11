@@ -37,8 +37,12 @@ function ResourceReader() {
   const isDoc = lower.endsWith(".doc");
   const isPptx = lower.endsWith(".pptx") || lower.endsWith(".ppt");
   const isTxt = lower.endsWith(".txt") || lower.endsWith(".md");
+  const isAudio = /\.(mp3|wav|ogg|m4a|aac|flac)$/.test(lower);
+  const isVideo = /\.(mp4|webm|mov|mkv|avi)$/.test(lower);
 
   const mode: Mode = !url ? "none"
+    : isAudio ? "audio"
+    : isVideo ? "video"
     : isPdf ? "pdf"
     : isImage ? "image"
     : (isDocx || isTxt) ? "book"
