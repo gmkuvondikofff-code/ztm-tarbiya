@@ -17,6 +17,7 @@ function Resources() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [items, setItems] = useState<any[]>([]);
   const [section, setSection] = useState<"library" | "econtent">("library");
+  const [mediaTab, setMediaTab] = useState<"video" | "audio">("video");
   const [active, setActive] = useState<string>("all");
 
   useEffect(() => {
@@ -24,7 +25,17 @@ function Resources() {
       .then(({ data }) => setItems(data || []));
   }, []);
 
-  const sectionItems = useMemo(() => items.filter((r) => (r.section || "library") === section), [items, section]);
+  const isAudioUrl = (u: string) => /\.(mp3|wav|ogg|m4a|aac|flac)$/.test(u);
+  const isVideoUrl = (u: string) => /\.(mp4|webm|mov|mkv|avi)$/.test(u);
+
+  const sectionItems = useMemo(() => {
+    const base = items.filter((r) => (r.section || "library") === section);
+    if (section !== "econtent") return base;
+    return base.filter((r) => {
+      const u = (r.file_url || r.external_url || "").toLowerCase();
+      return mediaTab === "video" ? isVideoUrl(u) : isAudioUrl(u);
+    });
+  }, [items, section, mediaTab]);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -34,7 +45,7 @@ function Resources() {
 
   const filtered = active === "all" ? sectionItems : sectionItems.filter((r) => r.category === active);
 
-  useEffect(() => { setActive("all"); }, [section]);
+  useEffect(() => { setActive("all"); }, [section, mediaTab]);
 
   if (pathname !== "/resources") return <Outlet />;
 
