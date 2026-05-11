@@ -121,6 +121,8 @@ function Resources() {
               <div key={r.id} className="bg-card border border-border rounded-2xl overflow-hidden shadow-elegant hover:shadow-elegant-lg transition-all flex flex-col">
                 {r.cover_image ? (
                   <img src={r.cover_image} alt="" className="w-full aspect-[16/10] object-cover" />
+                ) : isVideo && (r.file_url || r.external_url) ? (
+                  <VideoThumb src={(r.file_url || r.external_url) as string} className="w-full aspect-[16/10] object-cover" />
                 ) : (
                   <div className="w-full aspect-[16/10] bg-gradient-subtle flex items-center justify-center">
                     <Icon className="h-12 w-12 text-primary/40" />
