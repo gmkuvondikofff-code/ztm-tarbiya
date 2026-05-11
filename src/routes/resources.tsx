@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { ExternalLink, Download, BookOpen, Library, BookMarked, PlayCircle, Music, Film } from "lucide-react";
+import { VideoThumb } from "@/components/VideoThumb";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,6 +17,7 @@ function Resources() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [items, setItems] = useState<any[]>([]);
   const [section, setSection] = useState<"library" | "econtent">("library");
+  const [mediaTab, setMediaTab] = useState<"video" | "audio">("video");
   const [active, setActive] = useState<string>("all");
 
   useEffect(() => {
@@ -23,7 +25,17 @@ function Resources() {
       .then(({ data }) => setItems(data || []));
   }, []);
 
-  const sectionItems = useMemo(() => items.filter((r) => (r.section || "library") === section), [items, section]);
+  const isAudioUrl = (u: string) => /\.(mp3|wav|ogg|m4a|aac|flac)$/.test(u);
+  const isVideoUrl = (u: string) => /\.(mp4|webm|mov|mkv|avi)$/.test(u);
+
+  const sectionItems = useMemo(() => {
+    const base = items.filter((r) => (r.section || "library") === section);
+    if (section !== "econtent") return base;
+    return base.filter((r) => {
+      const u = (r.file_url || r.external_url || "").toLowerCase();
+      return mediaTab === "video" ? isVideoUrl(u) : isAudioUrl(u);
+    });
+  }, [items, section, mediaTab]);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -33,7 +45,7 @@ function Resources() {
 
   const filtered = active === "all" ? sectionItems : sectionItems.filter((r) => r.category === active);
 
-  useEffect(() => { setActive("all"); }, [section]);
+  useEffect(() => { setActive("all"); }, [section, mediaTab]);
 
   if (pathname !== "/resources") return <Outlet />;
 
@@ -62,6 +74,23 @@ function Resources() {
             <PlayCircle className="h-4 w-4 inline mr-1" /> {t("econtent")}
           </button>
         </div>
+
+        {section === "econtent" && (
+          <div className="inline-flex p-1 bg-muted rounded-xl mb-6 ml-0 md:ml-3">
+            <button
+              onClick={() => setMediaTab("video")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mediaTab === "video" ? "bg-background shadow" : "text-muted-foreground"}`}
+            >
+              <Film className="h-4 w-4 inline mr-1" /> {t("videoContent")}
+            </button>
+            <button
+              onClick={() => setMediaTab("audio")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mediaTab === "audio" ? "bg-background shadow" : "text-muted-foreground"}`}
+            >
+              <Music className="h-4 w-4 inline mr-1" /> {t("audioContent")}
+            </button>
+          </div>
+        )}
 
         {categories.length > 1 && (
           <div className="flex gap-2 overflow-x-auto pb-2 mb-6 -mx-4 px-4">
@@ -92,6 +121,8 @@ function Resources() {
               <div key={r.id} className="bg-card border border-border rounded-2xl overflow-hidden shadow-elegant hover:shadow-elegant-lg transition-all flex flex-col">
                 {r.cover_image ? (
                   <img src={r.cover_image} alt="" className="w-full aspect-[16/10] object-cover" />
+                ) : isVideo && (r.file_url || r.external_url) ? (
+                  <VideoThumb src={(r.file_url || r.external_url) as string} className="w-full aspect-[16/10] object-cover" />
                 ) : (
                   <div className="w-full aspect-[16/10] bg-gradient-subtle flex items-center justify-center">
                     <Icon className="h-12 w-12 text-primary/40" />
