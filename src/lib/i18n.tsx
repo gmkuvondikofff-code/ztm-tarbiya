@@ -88,6 +88,8 @@ const dict = {
     quizzes: "Тесты",
     econtent: "Э-контент",
     audio: "Аудио",
+    videoContent: "Видео контент",
+    audioContent: "Аудио контент",
     listen: "Слушать",
     watch: "Смотреть",
   },
