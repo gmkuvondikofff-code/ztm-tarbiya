@@ -75,6 +75,23 @@ function Resources() {
           </button>
         </div>
 
+        {section === "econtent" && (
+          <div className="inline-flex p-1 bg-muted rounded-xl mb-6 ml-0 md:ml-3">
+            <button
+              onClick={() => setMediaTab("video")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mediaTab === "video" ? "bg-background shadow" : "text-muted-foreground"}`}
+            >
+              <Film className="h-4 w-4 inline mr-1" /> {t("videoContent")}
+            </button>
+            <button
+              onClick={() => setMediaTab("audio")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mediaTab === "audio" ? "bg-background shadow" : "text-muted-foreground"}`}
+            >
+              <Music className="h-4 w-4 inline mr-1" /> {t("audioContent")}
+            </button>
+          </div>
+        )}
+
         {categories.length > 1 && (
           <div className="flex gap-2 overflow-x-auto pb-2 mb-6 -mx-4 px-4">
             {categories.map((c) => (
