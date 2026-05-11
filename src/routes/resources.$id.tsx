@@ -10,7 +10,7 @@ export const Route = createFileRoute("/resources/$id")({
   component: ResourceReader,
 });
 
-type Mode = "book" | "pdf" | "image" | "office" | "none";
+type Mode = "book" | "pdf" | "image" | "audio" | "video" | "office" | "none";
 
 function ResourceReader() {
   const { id } = Route.useParams();
