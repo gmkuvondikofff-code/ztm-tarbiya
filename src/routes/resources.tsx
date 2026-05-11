@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { ExternalLink, Download, BookOpen, Library, BookMarked, PlayCircle, Music, Film } from "lucide-react";
+import { VideoThumb } from "@/components/VideoThumb";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
