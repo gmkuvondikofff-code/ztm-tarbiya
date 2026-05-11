@@ -43,6 +43,8 @@ const dict = {
     quizzes: "Testlar",
     econtent: "E-kontent",
     audio: "Audio",
+    videoContent: "Video kontent",
+    audioContent: "Audio kontent",
     listen: "Eshitish",
     watch: "Ko'rish",
   },
