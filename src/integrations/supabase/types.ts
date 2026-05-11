@@ -265,6 +265,7 @@ export type Database = {
           external_url: string | null
           file_url: string | null
           id: string
+          section: string
           title_ru: string | null
           title_uz: string
           updated_at: string
@@ -278,6 +279,7 @@ export type Database = {
           external_url?: string | null
           file_url?: string | null
           id?: string
+          section?: string
           title_ru?: string | null
           title_uz: string
           updated_at?: string
@@ -291,6 +293,7 @@ export type Database = {
           external_url?: string | null
           file_url?: string | null
           id?: string
+          section?: string
           title_ru?: string | null
           title_uz?: string
           updated_at?: string
