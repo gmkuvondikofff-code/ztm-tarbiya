@@ -10,7 +10,7 @@ export const Route = createFileRoute("/resources/$id")({
   component: ResourceReader,
 });
 
-type Mode = "book" | "pdf" | "image" | "office" | "none";
+type Mode = "book" | "pdf" | "image" | "audio" | "video" | "office" | "none";
 
 function ResourceReader() {
   const { id } = Route.useParams();
@@ -37,8 +37,12 @@ function ResourceReader() {
   const isDoc = lower.endsWith(".doc");
   const isPptx = lower.endsWith(".pptx") || lower.endsWith(".ppt");
   const isTxt = lower.endsWith(".txt") || lower.endsWith(".md");
+  const isAudio = /\.(mp3|wav|ogg|m4a|aac|flac)$/.test(lower);
+  const isVideo = /\.(mp4|webm|mov|mkv|avi)$/.test(lower);
 
   const mode: Mode = !url ? "none"
+    : isAudio ? "audio"
+    : isVideo ? "video"
     : isPdf ? "pdf"
     : isImage ? "image"
     : (isDocx || isTxt) ? "book"
@@ -207,7 +211,20 @@ function ResourceReader() {
           </div>
         )}
 
-        {mode !== "book" && (
+        {mode === "audio" && (
+          <div className="bg-card border border-border rounded-2xl shadow-elegant p-6 md:p-10 flex flex-col items-center gap-6">
+            {item.cover_image && <img src={item.cover_image} alt="" className="w-full max-w-md aspect-square object-cover rounded-xl" />}
+            <audio src={url} controls className="w-full max-w-2xl" />
+          </div>
+        )}
+
+        {mode === "video" && (
+          <div className="bg-card border border-border rounded-2xl shadow-elegant overflow-hidden">
+            <video src={url} controls className="w-full max-h-[80vh] bg-black" poster={item.cover_image || undefined} />
+          </div>
+        )}
+
+        {mode !== "book" && mode !== "audio" && mode !== "video" && (
           <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-elegant" style={{ height: "80vh" }}>
             {mode === "pdf" && <iframe src={url} title={pickLang(item, lang, "title")} className="w-full h-full" />}
             {mode === "image" && <div className="w-full h-full overflow-auto flex items-center justify-center bg-muted"><img src={url} alt="" className="max-w-full" /></div>}
