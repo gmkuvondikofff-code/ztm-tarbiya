@@ -41,6 +41,10 @@ const dict = {
     general: "Umumiy",
     video: "Video",
     quizzes: "Testlar",
+    econtent: "E-kontent",
+    audio: "Audio",
+    listen: "Eshitish",
+    watch: "Ko'rish",
   },
   ru: {
     home: "Главная",
