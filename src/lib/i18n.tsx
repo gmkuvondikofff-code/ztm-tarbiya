@@ -84,6 +84,10 @@ const dict = {
     general: "Общее",
     video: "Видео",
     quizzes: "Тесты",
+    econtent: "Э-контент",
+    audio: "Аудио",
+    listen: "Слушать",
+    watch: "Смотреть",
   },
 };
 
