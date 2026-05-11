@@ -14,7 +14,7 @@ export const Route = createFileRoute("/admin/resources")({
   component: AdminResources,
 });
 
-const empty = { title_uz: "", title_ru: "", description_uz: "", description_ru: "", category: "general", file_url: "", external_url: "", cover_image: "" };
+const empty = { title_uz: "", title_ru: "", description_uz: "", description_ru: "", category: "general", section: "library", file_url: "", external_url: "", cover_image: "" };
 
 function AdminResources() {
   const [items, setItems] = useState<any[]>([]);
