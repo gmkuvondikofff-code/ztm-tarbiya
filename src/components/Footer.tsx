@@ -10,7 +10,7 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12 grid gap-10 md:grid-cols-3">
         <div>
           <div className="flex items-center gap-2.5 mb-4">
-            <img src={logo} alt="Logo" className="h-10 w-10 rounded-lg bg-white object-contain" />
+            <img src={logo} alt="Logo" className="h-12 w-12 object-contain" />
             <div className="leading-tight">
               <div className="font-display font-bold">Zamonaviy ta'lim</div>
               <div className="text-xs text-sidebar-foreground/70">va milliy tarbiya</div>
