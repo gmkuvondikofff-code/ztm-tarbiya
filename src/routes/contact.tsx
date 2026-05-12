@@ -35,7 +35,7 @@ function Contact() {
 
         <div className="mt-10 bg-gradient-subtle border border-border rounded-3xl p-8 text-center">
           <MapPin className="h-8 w-8 mx-auto text-primary mb-3" />
-          <p className="text-muted-foreground">Samarqand shahri, Lakatsiya, O'zbekiston</p>
+          <p className="text-muted-foreground">Samarqand shahri, O'zbekiston</p>
         </div>
       </section>
     </Layout>
