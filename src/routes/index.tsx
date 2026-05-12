@@ -34,9 +34,6 @@ function Index() {
         </div>
         <div className="container relative mx-auto px-4 py-16 md:py-24 lg:py-28">
           <div className="max-w-3xl">
-            <Badge className="mb-5 bg-white/15 text-white border-white/20 backdrop-blur hover:bg-white/20">
-              <Sparkles className="h-3 w-3 mr-1" /> {t("aiHelper")}
-            </Badge>
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-balance mb-5 leading-[1.05]">
               {t("heroTitle")}
             </h1>
