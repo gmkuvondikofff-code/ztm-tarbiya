@@ -27,22 +27,15 @@ function Index() {
   return (
     <Layout>
       {/* Hero */}
-      <section className="relative overflow-hidden text-white">
-        <div className="absolute inset-0">
-          <img src={heroBg} alt="" className="w-full h-full object-cover" />
-          
-        </div>
-        <div className="container relative mx-auto px-4 py-16 md:py-24 lg:py-28">
+      <section className="relative w-full text-white aspect-[1727/945]">
+        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-x-0 bottom-0 container mx-auto px-4 pb-8 md:pb-12">
           <div className="max-w-3xl">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-balance mb-5 leading-[1.05]">
-              {t("heroTitle")}
-            </h1>
-            <p className="text-base md:text-xl text-white/90 mb-8 max-w-2xl">{t("heroSubtitle")}</p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" variant="secondary" className="font-semibold">
                 <Link to="/news">{t("news")} <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white">
+              <Button asChild size="lg" variant="outline" className="bg-transparent border-white/40 text-white hover:bg-white/10 hover:text-white backdrop-blur">
                 <Link to="/qa">{t("aiHelper")}</Link>
               </Button>
             </div>
