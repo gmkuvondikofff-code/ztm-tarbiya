@@ -24,7 +24,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2.5 font-display font-bold min-w-0">
-          <img src={logo} alt="Logo" className="h-10 w-10 rounded-lg object-contain bg-white shadow-glow" />
+          <img src={logo} alt="Logo" className="h-14 w-14 object-contain" />
           <span className="hidden sm:flex flex-col leading-tight">
             <span className="text-sm font-bold">Zamonaviy ta'lim</span>
             <span className="text-[11px] text-muted-foreground font-medium">va milliy tarbiya</span>
