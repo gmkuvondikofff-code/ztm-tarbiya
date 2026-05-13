@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
-export type Lang = "uz" | "ru";
+export type Lang = "uz" | "ru" | "en";
 
 const dict = {
   uz: {
@@ -93,6 +93,51 @@ const dict = {
     listen: "Слушать",
     watch: "Смотреть",
   },
+  en: {
+    home: "Home",
+    news: "News",
+    resources: "Resources",
+    documents: "Documents",
+    qa: "Q&A",
+    contact: "Contact",
+    important: "Important",
+    readMore: "Read more",
+    views: "views",
+    admin: "Admin",
+    latestNews: "Latest news",
+    allNews: "All news",
+    heroTitle: "Modern education and national upbringing",
+    heroSubtitle: "A center for educating Uzbekistan's youth on the basis of modern knowledge and national values",
+    aiHelper: "AI assistant",
+    aiPlaceholder: "Ask your question about modern education and national upbringing...",
+    send: "Send",
+    contactUs: "Contact us",
+    phone: "Phone",
+    telegram: "Telegram",
+    download: "Download",
+    open: "Open",
+    read: "Read",
+    backToList: "Back to list",
+    publishedAt: "Date",
+    author: "Author",
+    noNews: "No news found",
+    loading: "Loading...",
+    aiIntro: "Hello! I'm an assistant for questions on modern education and national upbringing.",
+    footerAbout: "About us",
+    footerDesc: "We serve to shape a healthy and well-rounded generation through modern education and national upbringing.",
+    rights: "All rights reserved",
+    library: "Library",
+    allCategories: "All",
+    general: "General",
+    video: "Video",
+    quizzes: "Quizzes",
+    econtent: "E-content",
+    audio: "Audio",
+    videoContent: "Video content",
+    audioContent: "Audio content",
+    listen: "Listen",
+    watch: "Watch",
+  },
 };
 
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: keyof typeof dict.uz) => string };
@@ -102,7 +147,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("uz");
   useEffect(() => {
     const saved = localStorage.getItem("lang") as Lang | null;
-    if (saved === "uz" || saved === "ru") setLangState(saved);
+    if (saved === "uz" || saved === "ru" || saved === "en") setLangState(saved);
   }, []);
   const setLang = (l: Lang) => { setLangState(l); localStorage.setItem("lang", l); };
   const t = (k: keyof typeof dict.uz) => dict[lang][k] || dict.uz[k];
@@ -118,6 +163,8 @@ export function useI18n() {
 export function pickLang<T extends Record<string, any>>(row: T, lang: Lang, base: string): string {
   const ru = row[`${base}_ru`];
   const uz = row[`${base}_uz`];
+  const en = row[`${base}_en`];
   if (lang === "ru" && ru) return ru;
-  return uz || ru || "";
+  if (lang === "en" && en) return en;
+  return uz || ru || en || "";
 }
