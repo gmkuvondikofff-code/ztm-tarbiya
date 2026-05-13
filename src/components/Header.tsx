@@ -52,7 +52,7 @@ export function Header() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setLang(lang === "uz" ? "ru" : "uz")}
+            onClick={() => setLang(lang === "uz" ? "ru" : lang === "ru" ? "en" : "uz")}
             className="gap-1.5"
           >
             <Globe className="h-4 w-4" />
