@@ -34,13 +34,13 @@ function SearchPage() {
     setLoading(true);
     const term = `%${q}%`;
     Promise.all([
-      supabase.from("news").select("id,title_uz,title_ru,title_en,excerpt_uz,excerpt_ru,excerpt_en")
+      supabase.from("news").select("id,title_uz,title_ru,excerpt_uz,excerpt_ru")
         .or(`title_uz.ilike.${term},title_ru.ilike.${term},excerpt_uz.ilike.${term},excerpt_ru.ilike.${term}`).limit(20),
-      supabase.from("resources").select("id,title_uz,title_ru,title_en,description_uz,description_ru,description_en")
+      supabase.from("resources").select("id,title_uz,title_ru,description_uz,description_ru")
         .or(`title_uz.ilike.${term},title_ru.ilike.${term},description_uz.ilike.${term},description_ru.ilike.${term}`).limit(20),
-      supabase.from("documents").select("id,title_uz,title_ru,title_en,description_uz,description_ru,description_en")
+      supabase.from("documents").select("id,title_uz,title_ru,description_uz,description_ru")
         .or(`title_uz.ilike.${term},title_ru.ilike.${term},description_uz.ilike.${term},description_ru.ilike.${term}`).limit(20),
-      supabase.from("quizzes").select("id,title_uz,title_ru,title_en,description_uz,description_ru,description_en")
+      supabase.from("quizzes").select("id,title_uz,title_ru,description_uz,description_ru")
         .or(`title_uz.ilike.${term},title_ru.ilike.${term},description_uz.ilike.${term},description_ru.ilike.${term}`).limit(20),
     ]).then(([n, r, d, qz]) => {
       const out: Hit[] = [];
