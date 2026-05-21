@@ -59,6 +59,15 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <form onSubmit={submitSearch} className="hidden md:flex relative">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+            <Input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder={lang === "ru" ? "Поиск..." : lang === "en" ? "Search..." : "Qidirish..."}
+              className="h-9 pl-8 w-44 lg:w-56"
+            />
+          </form>
           <Button
             variant="ghost"
             size="sm"
