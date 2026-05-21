@@ -1,14 +1,24 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X, Globe, Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import logo from "@/assets/logo.png";
 
 export function Header() {
   const { t, lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
+  const [q, setQ] = useState("");
+  const navigate = useNavigate();
   const path = useRouterState({ select: (r) => r.location.pathname });
+
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!q.trim()) return;
+    navigate({ to: "/search", search: { q: q.trim() } });
+    setOpen(false);
+  };
 
   const links = [
     { to: "/", label: t("home") },
@@ -49,6 +59,15 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <form onSubmit={submitSearch} className="hidden md:flex relative">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+            <Input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder={lang === "ru" ? "Поиск..." : lang === "en" ? "Search..." : "Qidirish..."}
+              className="h-9 pl-8 w-44 lg:w-56"
+            />
+          </form>
           <Button
             variant="ghost"
             size="sm"
@@ -71,6 +90,15 @@ export function Header() {
       {open && (
         <div className="lg:hidden border-t border-border bg-background">
           <nav className="container mx-auto flex flex-col py-2 px-4">
+            <form onSubmit={submitSearch} className="relative py-2 md:hidden">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+              <Input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={lang === "ru" ? "Поиск..." : lang === "en" ? "Search..." : "Qidirish..."}
+                className="h-9 pl-8 w-full"
+              />
+            </form>
             {links.map((l) => (
               <Link
                 key={l.to}
