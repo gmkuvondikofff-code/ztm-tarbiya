@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as QuizzesRouteImport } from './routes/quizzes'
 import { Route as QaRouteImport } from './routes/qa'
@@ -27,6 +28,11 @@ import { Route as AdminNewsRouteImport } from './routes/admin.news'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
 
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/qa': typeof QaRoute
   '/quizzes': typeof QuizzesRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
+  '/search': typeof SearchRoute
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/qa': typeof QaRoute
   '/quizzes': typeof QuizzesRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
+  '/search': typeof SearchRoute
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/qa': typeof QaRoute
   '/quizzes': typeof QuizzesRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
+  '/search': typeof SearchRoute
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/news': typeof AdminNewsRoute
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/qa'
     | '/quizzes'
     | '/resources'
+    | '/search'
     | '/admin/documents'
     | '/admin/login'
     | '/admin/news'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/qa'
     | '/quizzes'
     | '/resources'
+    | '/search'
     | '/admin/documents'
     | '/admin/login'
     | '/admin/news'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/qa'
     | '/quizzes'
     | '/resources'
+    | '/search'
     | '/admin/documents'
     | '/admin/login'
     | '/admin/news'
@@ -238,10 +250,18 @@ export interface RootRouteChildren {
   QaRoute: typeof QaRoute
   QuizzesRoute: typeof QuizzesRouteWithChildren
   ResourcesRoute: typeof ResourcesRouteWithChildren
+  SearchRoute: typeof SearchRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources': {
       id: '/resources'
       path: '/resources'
@@ -426,6 +446,7 @@ const rootRouteChildren: RootRouteChildren = {
   QaRoute: QaRoute,
   QuizzesRoute: QuizzesRouteWithChildren,
   ResourcesRoute: ResourcesRouteWithChildren,
+  SearchRoute: SearchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

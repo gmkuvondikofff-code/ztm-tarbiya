@@ -1,7 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
-import { z } from "zod";
 import { Search as SearchIcon, Calendar, BookOpen, FileText, HelpCircle } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Input } from "@/components/ui/input";
@@ -9,10 +7,8 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, pickLang } from "@/lib/i18n";
 
-const schema = z.object({ q: fallback(z.string(), "").default("") });
-
 export const Route = createFileRoute("/search")({
-  validateSearch: zodValidator(schema),
+  validateSearch: (s: Record<string, unknown>) => ({ q: typeof s.q === "string" ? s.q : "" }),
   head: () => ({ meta: [{ title: "Qidiruv — Milliy Tarbiya" }] }),
   component: SearchPage,
 });
