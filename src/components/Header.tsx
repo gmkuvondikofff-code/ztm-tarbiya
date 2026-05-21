@@ -90,6 +90,15 @@ export function Header() {
       {open && (
         <div className="lg:hidden border-t border-border bg-background">
           <nav className="container mx-auto flex flex-col py-2 px-4">
+            <form onSubmit={submitSearch} className="relative py-2 md:hidden">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+              <Input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={lang === "ru" ? "Поиск..." : lang === "en" ? "Search..." : "Qidirish..."}
+                className="h-9 pl-8 w-full"
+              />
+            </form>
             {links.map((l) => (
               <Link
                 key={l.to}
