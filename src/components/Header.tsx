@@ -9,7 +9,16 @@ import logo from "@/assets/logo.png";
 export function Header() {
   const { t, lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
+  const [q, setQ] = useState("");
+  const navigate = useNavigate();
   const path = useRouterState({ select: (r) => r.location.pathname });
+
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!q.trim()) return;
+    navigate({ to: "/search", search: { q: q.trim() } });
+    setOpen(false);
+  };
 
   const links = [
     { to: "/", label: t("home") },
