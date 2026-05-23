@@ -17,7 +17,12 @@ function QuizzesPage() {
 
   useEffect(() => {
     if (path !== "/quizzes") return;
-    supabase.from("quizzes").select("*, quiz_questions(count)").order("created_at", { ascending: false }).then(({ data }) => setItems(data || []));
+    (async () => {
+      const { data } = await supabase.from("quizzes").select("*").order("created_at", { ascending: false });
+      const { data: counts } = await supabase.rpc("get_quiz_question_counts");
+      const countMap = new Map<string, number>((counts || []).map((c: any) => [c.quiz_id, Number(c.cnt)]));
+      setItems((data || []).map((q: any) => ({ ...q, _count: countMap.get(q.id) || 0 })));
+    })();
   }, [path]);
 
   if (path !== "/quizzes") return <Outlet />;
