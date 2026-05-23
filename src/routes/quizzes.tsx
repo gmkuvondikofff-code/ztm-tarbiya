@@ -51,7 +51,7 @@ function QuizzesPage() {
                   <div className="text-xs text-primary font-semibold uppercase mb-2">{q.kind === "game" ? (lang === "ru" ? "Игра" : "O'yin") : "Test"}</div>
                   <h3 className="font-bold text-lg mb-1 group-hover:text-primary transition-colors">{pickLang(q, lang, "title")}</h3>
                   <p className="text-sm text-muted-foreground line-clamp-2">{pickLang(q, lang, "description")}</p>
-                  <div className="mt-3 text-xs text-muted-foreground">{q.quiz_questions?.[0]?.count || 0} {lang === "ru" ? "вопросов" : "savol"}</div>
+                  <div className="mt-3 text-xs text-muted-foreground">{q._count || 0} {lang === "ru" ? "вопросов" : "savol"}</div>
                   <Button size="sm" className="mt-4 w-full">{lang === "ru" ? "Начать" : "Boshlash"}</Button>
                 </div>
               </Link>
