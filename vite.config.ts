@@ -6,4 +6,17 @@
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-export default defineConfig();
+// Lower JS/CSS build target so the output runs on browsers from ~2017 onward
+// (Chrome 61, Firefox 60, Safari 11, Edge 79). Combined with the oklch/backdrop-filter
+// @supports fallbacks in src/styles.css, the same visual design works on older devices.
+export default defineConfig({
+  vite: {
+    build: {
+      target: ["chrome61", "firefox60", "safari11", "edge79"],
+      cssTarget: ["chrome61", "firefox60", "safari11", "edge79"],
+    },
+    esbuild: {
+      target: "es2017",
+    },
+  },
+});
