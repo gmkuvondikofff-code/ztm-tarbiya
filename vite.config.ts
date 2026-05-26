@@ -12,11 +12,11 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 export default defineConfig({
   vite: {
     build: {
-      target: ["chrome61", "firefox60", "safari11", "edge79"],
-      cssTarget: ["chrome61", "firefox60", "safari11", "edge79"],
+      target: ["es2020", "chrome87", "firefox78", "safari14", "edge88"],
+      cssTarget: ["chrome87", "firefox78", "safari14", "edge88"],
     },
     esbuild: {
-      target: "es2017",
+      target: "es2020",
     },
   },
 });
