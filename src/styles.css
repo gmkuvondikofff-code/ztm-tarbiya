@@ -121,6 +121,84 @@
   --ring: oklch(0.65 0.20 255);
 }
 
+/* ===== Fallback for older browsers (2016–2022) that don't support oklch()/color-mix ===== */
+@supports not (color: oklch(0 0 0)) {
+  :root {
+    --background: hsl(220 20% 99%);
+    --foreground: hsl(225 25% 12%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(225 25% 12%);
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(225 25% 12%);
+    --primary: hsl(230 75% 50%);
+    --primary-foreground: hsl(0 0% 99%);
+    --primary-glow: hsl(230 85% 65%);
+    --secondary: hsl(220 15% 96%);
+    --secondary-foreground: hsl(225 20% 18%);
+    --muted: hsl(220 12% 96%);
+    --muted-foreground: hsl(220 10% 48%);
+    --accent: hsl(195 50% 92%);
+    --accent-foreground: hsl(225 25% 20%);
+    --destructive: hsl(0 75% 55%);
+    --destructive-foreground: hsl(0 0% 99%);
+    --success: hsl(155 55% 45%);
+    --success-foreground: hsl(0 0% 99%);
+    --warning: hsl(40 85% 60%);
+    --warning-foreground: hsl(40 30% 15%);
+    --border: hsl(220 15% 91%);
+    --input: hsl(220 15% 91%);
+    --ring: hsl(230 75% 50%);
+
+    --gradient-hero: linear-gradient(135deg, hsl(230 75% 50%) 0%, hsl(265 75% 60%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 15% 98%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(220 20% 99%) 0%, hsl(220 15% 96%) 100%);
+
+    --shadow-sm: 0 1px 2px 0 rgba(20, 25, 50, 0.05);
+    --shadow-md: 0 4px 12px -2px rgba(20, 25, 50, 0.08);
+    --shadow-lg: 0 16px 40px -8px rgba(20, 25, 50, 0.12);
+    --shadow-glow: 0 8px 32px -4px rgba(70, 100, 230, 0.25);
+
+    --sidebar: hsl(225 25% 14%);
+    --sidebar-foreground: hsl(220 15% 95%);
+    --sidebar-primary: hsl(230 85% 65%);
+    --sidebar-primary-foreground: hsl(0 0% 99%);
+    --sidebar-accent: hsl(225 20% 22%);
+    --sidebar-accent-foreground: hsl(220 15% 95%);
+    --sidebar-border: hsl(225 18% 28%);
+    --sidebar-ring: hsl(230 85% 65%);
+  }
+
+  .dark {
+    --background: hsl(225 25% 10%);
+    --foreground: hsl(220 15% 97%);
+    --card: hsl(225 22% 14%);
+    --card-foreground: hsl(220 15% 97%);
+    --popover: hsl(225 22% 14%);
+    --popover-foreground: hsl(220 15% 97%);
+    --primary: hsl(230 85% 65%);
+    --primary-foreground: hsl(225 25% 10%);
+    --secondary: hsl(225 20% 22%);
+    --secondary-foreground: hsl(220 15% 97%);
+    --muted: hsl(225 20% 22%);
+    --muted-foreground: hsl(220 12% 70%);
+    --accent: hsl(225 25% 22%);
+    --accent-foreground: hsl(220 15% 97%);
+    --border: hsl(225 18% 28%);
+    --input: hsl(225 18% 28%);
+    --ring: hsl(230 85% 65%);
+  }
+}
+
+/* Backdrop-filter fallback for browsers that don't support it (older Firefox, etc.) */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .backdrop-blur-lg,
+  .backdrop-blur-md,
+  .backdrop-blur-sm,
+  .backdrop-blur {
+    background-color: var(--background) !important;
+  }
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
