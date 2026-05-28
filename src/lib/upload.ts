@@ -1,11 +1,19 @@
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { uploadToImageKit } from "./imagekit.functions";
 
-export async function uploadFile(bucket: "media" | "files", file: File): Promise<string | null> {
-  const ext = file.name.split(".").pop();
-  const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const { error } = await supabase.storage.from(bucket).upload(path, file);
-  if (error) { toast.error("Yuklashda xato: " + error.message); return null; }
-  const { data } = supabase.storage.from(bucket).getPublicUrl(path);
-  return data.publicUrl;
+/**
+ * Uploads a file to ImageKit (any type: image, video, audio, pdf, doc, etc.).
+ * `bucket` is kept for backward compatibility and used as the ImageKit folder name.
+ */
+export async function uploadFile(bucket: "media" | "files" | string, file: File): Promise<string | null> {
+  try {
+    const form = new FormData();
+    form.append("file", file);
+    form.append("folder", bucket);
+    const res = await uploadToImageKit({ data: form });
+    return res.url;
+  } catch (e: any) {
+    toast.error("Yuklashda xato: " + (e?.message || "noma'lum xato"));
+    return null;
+  }
 }
