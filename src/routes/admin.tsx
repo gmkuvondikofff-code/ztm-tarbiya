@@ -2,7 +2,6 @@ import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tan
 import { useEffect, useState } from "react";
 import { LogOut, Newspaper, BookOpen, FileText, LayoutDashboard, Shield, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -16,23 +15,17 @@ function AdminLayout() {
 
   useEffect(() => {
     if (path === "/admin/login") { setReady(true); return; }
-    (async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { nav({ to: "/admin/login" }); return; }
-      const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", user.id);
-      if (!roles?.some((r: any) => r.role === "admin")) {
-        await supabase.auth.signOut();
-        nav({ to: "/admin/login" });
-        return;
-      }
+    if (typeof window !== "undefined" && sessionStorage.getItem("admin_authed") === "1") {
       setReady(true);
-    })();
+    } else {
+      nav({ to: "/admin/login" });
+    }
   }, [path]);
 
   if (path === "/admin/login") return <Outlet />;
   if (!ready) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Yuklanmoqda...</div>;
 
-  const logout = async () => { await supabase.auth.signOut(); toast.success("Chiqdingiz"); nav({ to: "/admin/login" }); };
+  const logout = () => { sessionStorage.removeItem("admin_authed"); toast.success("Chiqdingiz"); nav({ to: "/admin/login" }); };
 
   const links = [
     { to: "/admin", label: "Boshqaruv", icon: LayoutDashboard, exact: true },
