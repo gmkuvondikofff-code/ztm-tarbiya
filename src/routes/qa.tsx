@@ -36,18 +36,22 @@ function QA() {
     setLoading(true);
 
     try {
-      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
-      const resp = await fetch(url, {
+      const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+      const model = import.meta.env.VITE_GROQ_MODEL || "llama-3.3-70b-versatile";
+      const resp = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
         },
-        body: JSON.stringify({ messages: next }),
+        body: JSON.stringify({
+          model,
+          messages: next.map((m) => ({ role: m.role, content: m.content })),
+          stream: true,
+        }),
       });
 
       if (resp.status === 429) { toast.error("Juda ko'p so'rov, biroz kuting"); setLoading(false); return; }
-      if (resp.status === 402) { toast.error("AI kreditlari tugagan"); setLoading(false); return; }
       if (!resp.ok || !resp.body) { toast.error("Xatolik"); setLoading(false); return; }
 
       const reader = resp.body.getReader();

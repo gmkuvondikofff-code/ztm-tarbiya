@@ -4,12 +4,15 @@ import { Shield, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/login")({
   component: AdminLogin,
 });
+
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "noname@ztmtarbiya.uz";
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "NoName2026@";
+const ADMIN_CODE = import.meta.env.VITE_ADMIN_CODE || "396790";
 
 function AdminLogin() {
   const nav = useNavigate();
@@ -19,26 +22,23 @@ function AdminLogin() {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const submitCreds = async (e: React.FormEvent) => {
+  const submitCreds = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) { toast.error("Email yoki parol noto'g'ri"); return; }
-    setStep(2);
+    setTimeout(() => {
+      setLoading(false);
+      if (email.trim().toLowerCase() !== ADMIN_EMAIL.toLowerCase() || password !== ADMIN_PASSWORD) {
+        toast.error("Email yoki parol noto'g'ri");
+        return;
+      }
+      setStep(2);
+    }, 200);
   };
 
-  const submitCode = async (e: React.FormEvent) => {
+  const submitCode = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setLoading(false); toast.error("Sessiya yo'q"); return; }
-    const { data: prof } = await supabase.from("profiles").select("totp_code").eq("user_id", user.id).maybeSingle();
-    const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", user.id);
-    const isAdmin = roles?.some((r: any) => r.role === "admin");
-    setLoading(false);
-    if (!isAdmin) { await supabase.auth.signOut(); toast.error("Sizda admin huquqi yo'q"); setStep(1); return; }
-    if (!prof || prof.totp_code !== code) { toast.error("Kod noto'g'ri"); return; }
+    if (code !== ADMIN_CODE) { toast.error("Kod noto'g'ri"); return; }
+    sessionStorage.setItem("admin_authed", "1");
     toast.success("Xush kelibsiz!");
     nav({ to: "/admin" });
   };
@@ -72,7 +72,7 @@ function AdminLogin() {
               <Label htmlFor="code">6 xonali kod</Label>
               <Input id="code" inputMode="numeric" maxLength={6} value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} required autoFocus className="text-center text-2xl tracking-[0.5em] font-mono" />
             </div>
-            <Button type="submit" className="w-full" disabled={loading || code.length !== 6}>{loading ? "..." : "Kirish"}</Button>
+            <Button type="submit" className="w-full" disabled={code.length !== 6}>Kirish</Button>
           </form>
         )}
       </div>
